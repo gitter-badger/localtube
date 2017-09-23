@@ -39,15 +39,20 @@ function sendimage() {
 }
 
 body = document.getElementsByTagName("body")[0]
+html = document.getElementsByTagName("html")[0]
 video = document.getElementById("thevideo");
 
 video.play();
-video.width = body.clientWidth;
-video.height = body.clientHeight;
+
+function allwidth() { return Math.max(document.documentElement.clientWidth, window.innerWidth || 0) - 20; }
+function allheight() { return Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 20; }
+
+video.width = allwidth();
+video.height = allheight();
 
 body.onresize = function() {
-	video.width = body.clientWidth;
-	video.height = body.clientHeight;
+	video.width = allwidth();
+	video.height = allheight();
 }
 
 lastClick = 0;
