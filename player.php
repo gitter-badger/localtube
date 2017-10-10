@@ -16,6 +16,10 @@
 				font-size: 6em;
 			}
 		</style>
+		
+		<script>
+			var filename = <?php echo json_encode($_GET["file"]); ?>;
+		</script>
 	</head>
 	<body>
 		<div id="overlaytext"></div>

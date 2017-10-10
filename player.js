@@ -24,15 +24,16 @@ function sendimage() {
 			  data: { 
 				 //imgBase64: canvas.toDataURL('image/png'),
 				 imgBase64: blob64,
-				 file: "<?=$file?>",
+				 file: filename,
 				 mins: mins,
 				 secs: secs,
 				 msecs: msecs
 			  }
 			}).done(function(o) {
-			  console.log('saved', o);
-			  last_o = o;
-			});
+				flashText("Snapshot " + (o.status ? "saved" : "failed"));
+				console.log('snapshot', o);
+				last_o = o;
+			}).fail(function(e) { console.log("fail", e); });
 		});
 		reader.readAsDataURL(blob);	
 	})
@@ -134,6 +135,7 @@ document.onkeydown = function(e) {
 	}
 	
 	if (e.key == "s") {
+		flashText("Snapshot...");
 		setTimeout(sendimage, 0); // dont block the event handler, converting blob to image takes quite some time
 		handled = true;
 	}
