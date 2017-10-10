@@ -7,15 +7,17 @@ function sendimage() {
 	ctx = canvas.getContext('2d');
 	ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 	
-	mins = Math.floor(video.currentTime / 60)
-	secs = Math.floor(video.currentTime - (mins * 60))
-	msecs = Math.floor((video.currentTime - ((mins * 60) + secs)) * 1000)
 
 	canvas.toBlob(function(blob) {
 		var reader = new FileReader("image/png");
 		reader.addEventListener('loadend', (e) => {
 			var blob64 = e.srcElement.result;
-			console.log("got blob");
+			//console.log("got blob");
+			flashText("Snaphot... upload");
+			
+			mins = Math.floor(video.currentTime / 60)
+			secs = Math.floor(video.currentTime - (mins * 60))
+			msecs = Math.floor((video.currentTime - ((mins * 60) + secs)) * 1000)			
 			
 			// now save the base64 blob to server
 			$.ajax({
@@ -31,7 +33,8 @@ function sendimage() {
 			  }
 			}).done(function(o) {
 				flashText("Snapshot " + (o.status ? "saved" : "failed"));
-				console.log('snapshot', o);
+				console.log('snapshot', o.filename);
+				console.log(o);
 				last_o = o;
 			}).fail(function(e) { console.log("fail", e); });
 		});
@@ -98,11 +101,14 @@ function toggleFullscreen() {
 	}
 }
 
+enableFadeOut = true;
+
 function flashText(content) {
 	$(text).stop().animate({opacity:'100'});
 	$(text).show();
 	$(text).html(content);
-	$(text).fadeOut(1000)	
+	if (enableFadeOut)
+		$(text).fadeOut(1000);
 }
 
 document.onkeydown = function(e) {
@@ -137,7 +143,7 @@ document.onkeydown = function(e) {
 	}
 	
 	if (e.key == "s") {
-		flashText("Snapshot...");
+		flashText("Snapshot... convert video frame");
 		setTimeout(sendimage, 0); // dont block the event handler, converting blob to image takes quite some time
 		handled = true;
 	}

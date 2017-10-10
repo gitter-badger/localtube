@@ -8,12 +8,14 @@
 		<title>Player</title>
 		<style>
 			#overlaytext {
-				background-color: rgba(50, 56, 55, 0.26);
 				position: absolute;
 				left: 100px;
 				top: 10px;
-				color: rgba(140, 125, 125, 0.69);
-				font-size: 6em;
+				font-size: 2em;
+				/* not perfect difference color, sometimes its no so easy to read, but overall pretty nice... disable the fadeOut() via `enableFadeOut=false` for testing */
+				mix-blend-mode: difference;
+				color: rgba(0, 255, 45, 0.51);
+				background-color: rgba(73, 72, 82, 0.25);
 			}
 		</style>
 		
