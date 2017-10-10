@@ -47,13 +47,20 @@ video.play();
 function allwidth() { return Math.max(document.documentElement.clientWidth, window.innerWidth || 0) - 20; }
 function allheight() { return Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 20; }
 
-video.width = allwidth();
-video.height = allheight();
-
 body.onresize = function() {
 	video.width = allwidth();
 	video.height = allheight();
+	
+	text.style.left = (video.width  / 10) + "px";
+	text.style.top  = (video.height / 10) + "px";
 }
+
+function main() {
+	text = document.getElementById("overlaytext");
+	body.onresize();
+}
+
+body.onload = main;
 
 lastClick = 0;
 stopToggle = false;
@@ -61,10 +68,13 @@ stopToggle = false;
 function togglePlay() {
 	if (stopToggle)
 		return;
-	if (video.paused)
+	if (video.paused) {
+		//flashText("Play")
 		video.play();
-	else
+	} else {
+		//flashText("Pause")
 		video.pause();
+	}
 }
 
 body.onclick = function(e) {
@@ -79,11 +89,21 @@ body.onclick = function(e) {
 	lastClick = Date.now();
 }
 function toggleFullscreen() {
-	if (document.webkitIsFullScreen)
+	if (document.webkitIsFullScreen) {
 		document.webkitExitFullscreen();
-	else
-		video.webkitRequestFullscreen();
+	} else {
+		//video.webkitRequestFullscreen();
+		body.webkitRequestFullscreen();
+	}
 }
+
+function flashText(content) {
+	$(text).stop().animate({opacity:'100'});
+	$(text).show();
+	$(text).html(content);
+	$(text).fadeOut(1000)	
+}
+
 document.onkeydown = function(e) {
 	e_ = e; // checking what kind of key in case of new shortcuts
 	//console.log(e)
@@ -99,11 +119,14 @@ document.onkeydown = function(e) {
 		time = 1; // jump a second
 		
 	
-	if (e.key == "ArrowRight") { video.currentTime +=  time; handled = true; }
-	if (e.key == "ArrowLeft" ) { video.currentTime -=  time; handled = true; }
+	if (e.key == "ArrowRight") { video.currentTime +=  time; handled = true; flashText("+"+time+"s"); }
+	if (e.key == "ArrowLeft" ) { video.currentTime -=  time; handled = true; flashText("-"+time+"s"); }
 	
-	if (e.key == "ArrowUp"   ) { video.volume = Math.min(video.volume + 0.1, 1.0); handled = true; }
-	if (e.key == "ArrowDown" ) { video.volume = Math.max(video.volume - 0.1, 0.0); handled = true; }
+	var addVolume = 0.1;
+	if (e.ctrlKey)
+		addVolume = 0.01;
+	if (e.key == "ArrowUp"   ) { video.volume = Math.min(video.volume + addVolume, 1.0); flashText("Vol "+(Math.round(video.volume*100))+"%"); video.muted=false; handled = true; }
+	if (e.key == "ArrowDown" ) { video.volume = Math.max(video.volume - addVolume, 0.0); flashText("Vol "+(Math.round(video.volume*100))+"%"); video.muted=false; handled = true; }
 	
 	if (e.key == "f") {
 		toggleFullscreen();
