@@ -32,7 +32,12 @@ function sendimage() {
 				 msecs: msecs
 			  }
 			}).done(function(o) {
-				flashText("Snapshot " + (o.status ? "saved" : "failed"));
+				var msg = "Snapshot failed";
+				if (o.status) {
+					var kb = Math.round(o.filesize / 1024);
+					msg = "Snapshot saved (" + kb + " kb)";					
+				}
+				flashText(msg);
 				console.log('snapshot', o.filename);
 				console.log(o);
 				last_o = o;

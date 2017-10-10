@@ -53,7 +53,10 @@
 	else
 		$success = file_put_contents($filename, $data);
 	
+	$filesize = 0;
+	if ($success)
+		$filesize = filesize($filename);
 	
-	$ret = array('mins' => $mins, 'secs' => $secs, 'msecs' => $msecs, "filename" => $filename, "status" => $success);
+	$ret = array('mins' => $mins, 'secs' => $secs, 'msecs' => $msecs, "filename" => $filename, "status" => $success, "filesize" => $filesize);
 	echo json_encode($ret);
 ?>
