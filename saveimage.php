@@ -29,6 +29,12 @@
 		return true;
 	}
 	
+	// Example 2160p image:
+	// JPG> usually in the range of 150-600kb with quality=90
+	// PNG> around 6MB
+	$convertToJPG = true;
+	$extension = $convertToJPG ? "jpg" : "png";
+	
 	$mins = intval($_POST['mins']);
 	$secs = intval($_POST['secs']);
 	$msecs = intval($_POST['msecs']);
@@ -37,12 +43,11 @@
 	$img = str_replace(' ', '+', $img);
 	$data = base64_decode($img);
 	$dir = "thumbs/" . hashfilename($_POST['file']) . "/";
-	$filename = $dir . $mins . "_" . $secs . "_" . $msecs . ".jpg";
+	$filename = $dir . $mins . "_" . $secs . "_" . $msecs . "." . $extension;
 	if (!is_dir($dir))
 		mkdir($dir, 0777, true); // make sure the folder exists
 	
 	$success = false;
-	$convertToJPG = true;
 	if ($convertToJPG)
 		$success = png2jpg($data, $filename, 90);
 	else

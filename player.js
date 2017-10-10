@@ -125,6 +125,8 @@ document.onkeydown = function(e) {
 	
 	var addVolume = 0.1;
 	if (e.ctrlKey)
+		addVolume = 0.50;
+	if (e.altKey)
 		addVolume = 0.01;
 	if (e.key == "ArrowUp"   ) { video.volume = Math.min(video.volume + addVolume, 1.0); flashText("Vol "+(Math.round(video.volume*100))+"%"); video.muted=false; handled = true; }
 	if (e.key == "ArrowDown" ) { video.volume = Math.max(video.volume - addVolume, 0.0); flashText("Vol "+(Math.round(video.volume*100))+"%"); video.muted=false; handled = true; }
