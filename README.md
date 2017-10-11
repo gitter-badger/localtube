@@ -1,7 +1,7 @@
 Optimal settings after default XAMPP install:
 
- * In `php.ini`, set `upload_max_filesize=20M` (so video snapshots of e.g. 2160p videos can be saved, default is 2MB)
- * In `php.ini`, set `post_max_size=20M`
+ * In `php.ini`, set `upload_max_filesize=40M` (so video snapshots of e.g. 2160p videos can be saved, default is 2MB, but PNG snapshots go over 20MB at times)
+ * In `php.ini`, set `post_max_size=40M`
  * Restart Apache in XAMPP Control Panel
 
 Todo:
