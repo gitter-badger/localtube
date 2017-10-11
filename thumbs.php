@@ -2,17 +2,24 @@
 	
 	
 
-	function kung_mkdir($dir) {
-		if (!is_dir($dir))
-			mkdir($dir, 0777, true); // make sure the folder exists
-	}	
+	include_once("lib.php");
+	
+	$errors = 0;
+	$generated = 0;
+	$existed = 0;
 	
 	function createThumbnail($imagefile) {
+		global $errors;
+		global $generated;
+		global $existed;
+		
+		
 		$thumbnaleFilename = dirname($imagefile) . "/thumbs/" . basename($imagefile);
 		
 		
 		if (file_exists($thumbnaleFilename)) {
-			echo "$thumbnaleFilename exists\n";
+			//echo "$thumbnaleFilename exists\n";
+			$existed++;
 			return;
 		}
 		
@@ -38,7 +45,9 @@
 		
 		imagejpeg($thumb, $thumbnaleFilename);
 		imagedestroy($thumb);
-		imagedestroy($image);		
+		imagedestroy($image);
+		$generated++;
+		
 	}
 	
 	$files = glob("thumbs/*/*.jpg");
@@ -51,3 +60,5 @@
 	
 		createThumbnail($file);
 	}
+	
+	echo "errors=$errors generated=$generated existed=$existed\n";
