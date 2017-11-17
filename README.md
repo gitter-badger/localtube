@@ -34,3 +34,5 @@ Keyboard shortcuts:
 Mouse shortcuts:
  * Double click = fullscreen toggle
  * Single click = play/pause toggle
+
+[![Join the chat at https://gitter.im/DeepDreamers/Lobby](https://badges.gitter.im/DeepDreamers/Lobby.svg)](https://gitter.im/DeepDreamers/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
